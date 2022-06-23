@@ -41,10 +41,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let alertController = UIAlertController(title: "ToDo追加", message: "ToDoを入力してください。", preferredStyle: UIAlertController.Style.alert)
             alertController.addTextField(configurationHandler: nil)
         
+        
             //OKアクションの実装
             let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) { (acrion: UIAlertAction) in
                 // OKをタップした時の処理
+                
+                
                 if let textField = alertController.textFields?.first {
+                    
+                    //何も入力をされずにOKボタンを押しても何も変化をしない
+                    if textField.text == "" {
+                        return
+                    }
+                   
                     self.todoList.insert(textField.text!, at: 0)
                     self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: UITableView.RowAnimation.right)
                     
@@ -55,6 +64,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             //キャンセルアクションの実装
             let cancelButton = UIAlertAction(title: "CANCEL", style: UIAlertAction.Style.cancel, handler: nil)
         
+        
+        
+        
+            
         
             //実装したアクションをアラートにセット
             alertController.addAction(okAction)
@@ -107,6 +120,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) { (acrion: UIAlertAction) in
                     // OKをタップした時の処理
                     if let textField = alertController.textFields?.first {
+                        //何も入力をされずにOKボタンを押しても何も変化をしない
+                        if textField.text! == ""{
+                            return
+                        }
                         self.todoList.remove(at: indexPath.row)
                         tableView.deleteRows(at: [indexPath], with:.automatic)
                         self.todoList.insert(textField.text!, at: indexPath.row)
