@@ -107,8 +107,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) { (acrion: UIAlertAction) in
                     // OKをタップした時の処理
                     if let textField = alertController.textFields?.first {
-                        self.todoList.insert(textField.text!, at: 0)
-                        self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: UITableView.RowAnimation.right)
+                        self.todoList.remove(at: indexPath.row)
+                        tableView.deleteRows(at: [indexPath], with:.automatic)
+                        self.todoList.insert(textField.text!, at: indexPath.row)
+                        tableView.insertRows(at: [indexPath], with:.automatic)
                         
                         //追加したTodoをユーザデフォルトに保存
                         self.userDefaults.set(self.todoList, forKey: "todoKey")
@@ -142,7 +144,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
           // 実行結果に関わらず記述
           completionHandler(true)
         }
-          deleteAction.backgroundColor = .systemPink
+          
           deleteAction.image = UIImage(systemName: "trash.fill")
         // 定義したアクションをセット
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
