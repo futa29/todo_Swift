@@ -97,7 +97,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
       func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
         // 編集処理
-        let editAction = UIContextualAction(style: .normal, title: "編集") { (action, view, completionHandler) in
+          let editAction = UIContextualAction(style: .normal, title: "編集") { (action, view, completionHandler) in
           // 編集処理を記述
           print("Editがタップされた")
             let alertController = UIAlertController(title: "ToDo編集", message: "ToDoを入力してください。", preferredStyle: UIAlertController.Style.alert)
@@ -132,12 +132,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
        // 削除処理
         let deleteAction = UIContextualAction(style: .destructive, title: "削除") { (action, view, completionHandler) in
           //削除処理を記述
-          print("Deleteがタップされた")
+            self.todoList.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with:.automatic)
+            //削除した内容を保存
+            self.userDefaults.set(self.todoList, forKey: "todoKey")
+            
+            
 
           // 実行結果に関わらず記述
           completionHandler(true)
         }
-
+          deleteAction.backgroundColor = .systemPink
+          deleteAction.image = UIImage(systemName: "trash.fill")
         // 定義したアクションをセット
         return UISwipeActionsConfiguration(actions: [deleteAction, editAction])
       }
